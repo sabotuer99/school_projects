@@ -1,0 +1,768 @@
+<?php 
+/********************************************************
+	This section checks to make sure the path to the 
+	include file exists, then drops it in
+*********************************************************/
+session_start();
+$path = $_SERVER['DOCUMENT_ROOT'].'/includes';
+if(file_exists($path)) 
+{
+	$baseroot = "";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/includes/includes.php';	
+}
+else 
+{
+	$baseroot = "/whorten";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/whorten/includes/includes.php';	
+}
+//End include code
+?>
+
+<?php 
+if(isset($_SESSION['auth']) ? $_SESSION['auth']==1 : false) 
+{
+
+	if(isset($_POST['opt'])) 
+	{
+		$purifier = new HTMLPurifier();	
+		$opt =  $purifier->purify(urldecode($_POST['opt']));
+
+
+	/********************************************************
+		This switch statement runs various code to manage
+		file system and database entries for colleges
+	*********************************************************/
+		switch($opt) 
+		{
+
+		/********************************************************
+			case 'createnew', write directory and database entries
+			for new course.
+			
+		
+		*********************************************************/
+		case 'createnew':
+	
+			if( isset($_POST['name']) || isset($_SESSION['crsname']) ) 
+			{
+
+				if(!(isset($_SESSION['crsname']) )) 
+				{	
+					$purifier = new HTMLPurifier();	
+					$clean_name = $purifier->purify(urldecode($_POST['name'])); 	
+					$clean_did = $purifier->purify(urldecode($_POST['did'])); 	
+					$clean_prefix = $purifier->purify(urldecode($_POST['prefix']));
+					$clean_desc = $purifier->purify(urldecode($_POST['crsdesc']));
+					$clean_cred = $purifier->purify(urldecode($_POST['credhr']));
+					$_SESSION['crsname'] = $clean_name;
+					$_SESSION['crsdid'] = $clean_did;	
+					$_SESSION['crsprefix'] = $clean_prefix;	
+					$_SESSION['crsdesc'] = $clean_desc;	
+					$_SESSION['crscred'] = $clean_cred;
+		 		}
+		 		else 
+		 		{
+		 			$clean_name = $_SESSION['crsname'];
+					$clean_did = $_SESSION['crsdid'];
+					$clean_prefix = $_SESSION['crsprefix'];
+					$clean_desc = $_SESSION['crsdesc'];
+					$clean_cred = $_SESSION['crscred'];
+				}
+
+				/********************************************************
+					Find lowest available course number based on prefix
+				*********************************************************/								
+				$purifier = new HTMLPurifier();	
+		 		$clean_prefix = $purifier->purify(urldecode($_POST['prefix']));
+		 		$clean_did = $purifier->purify(urldecode($_POST['did']));
+	
+		 		require_once '../db_login.php'; 	
+				$query = "SELECT crsnum FROM courses WHERE did='". $clean_did."' && crsnum >= '".$clean_prefix."' && crsnum < '". ($clean_prefix + 100) ."';";
+				$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));											
+
+				$result_array = array();
+				while($fetch_result = mysqli_fetch_assoc($result))
+				{
+					$result_array[] = $fetch_result['crsnum'];
+				}
+					
+				$i = 	$clean_prefix;
+				$max = $clean_prefix + 100;
+						
+				while(in_array($i, $result_array) && $i < $max) 
+				{
+					$i++;
+				}		
+				
+				if( $i == $max) 
+				{
+					unset($_SESSION['crsname']);
+					unset($_SESSION['crsdid']);
+					unset($_SESSION['crsprefix']);	
+					unset($_SESSION['crsdesc']);
+					unset($_SESSION['crscred']);
+					die('Sublevel Full');
+				}
+				else 
+				{
+					$fields[] = 'crsnum';
+					$values[] = $i;
+				}
+				
+				$fields[] = 'crsname';
+				$values[] = $clean_name;
+				
+				$fields[] = 'crsdesc';	
+				$values[] = $clean_desc;
+				
+				$fields[] = 'credithrs';	
+				$values[] = $clean_cred;
+				
+				$fields[] = 'did';	
+				$values[] = $clean_did;				
+				
+				/* THESE ARE PLACEHOLDERS TILL THIS LOGIC IS BUILT */
+				$fields[] = 'sec';	
+				$values[] = 1;	
+							
+				$fields[] = 'ver';	
+				$values[] = 1;				
+				
+				$fields[] = 'status';	
+				$values[] = 1;	
+
+				/********************************************************
+					write the database entry
+				*********************************************************/												
+		 		require_once '../db_login.php'; 	
+
+				date_default_timezone_set('America/Denver'); 
+				$today = date("Y-m-d");
+				$fields_str = implode(",", $fields);
+				$values_str = implode('","',$values);
+				$fields_str .= ",createDate";
+				$values_str .= '"'.",".'"'.$today;	
+
+				$sql  = "INSERT INTO courses ";
+				$sql .= "(".$fields_str.")";
+				$sql .= " VALUES ";
+				$sql .= "(".'"'.$values_str.'"'.")";	
+	
+				$result = 	mysqli_query($db_server, $sql) or die("Couldn't execute insert query: <br>".$sql." error:". mysqli_error($db_server));											
+				$clean_crsid = mysqli_insert_id($db_server);
+				$_SESSION['crsid'] = $clean_crsid;				
+
+				$sylsql .= "INSERT INTO lessons (crsid, createDate, viewindex, lsntype, lsntitle) VALUES	".'("'.$clean_crsid.'","'.$today.'","0","0","Default Syllabus")';	
+	
+				$result = 	mysqli_query($db_server, $sylsql) or die("Couldn't execute insert query: <br>".$sylsql." error:". mysqli_error($db_server));											
+				$clean_sylid = mysqli_insert_id($db_server);
+								
+
+				$crspath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/courses/'.$clean_crsid;		
+				$sylpath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/courses/'.$clean_crsid.'/'.$clean_sylid;	
+						
+				/********************************************************
+					write the directory if it doesn't exist
+				*********************************************************/	
+					if(!file_exists($crspath)) 
+					{
+						if(!mkdir($crspath, 0777))
+						{
+							$_SESSION['create_crs_option'] = 'default';
+							die('failed to write directory "'.$crspath.'"');
+						}	
+						chmod($crspath, 0777);
+						/* THE COURSE DOESN'T NEED THE RESPONSIVE FILEMANAGER FOLDERS
+						BECAUSE THE COURSE IS DESCRIBED IN DEPT IN THE SYLLABUS, WHICH DOES
+						HAVE ITS OWN RESPONSIVE FILE MANAGER FOLDERS...*/
+						if(!mkdir($sylpath, 0777))		
+						{
+							$_SESSION['create_crs_option'] = 'default';
+							die('failed to write directory "'.$sylpath.'"');
+						}
+						chmod($sylpath, 0777);								
+					}		
+					else 
+					{ 			
+						$_SESSION['create_crs_option'] = 'default';
+						die('Directory already exists'); 		
+					}			
+
+				}		
+					unset($_SESSION['cname']);
+					unset($_SESSION['cabr']);
+					unset($_SESSION['dbid']);
+					unset($_SESSION['create_crs_option']);	
+					unset($_SESSION['crsname']);
+					unset($_SESSION['crsdid']);
+					unset($_SESSION['crsprefix']);
+					unset($_SESSION['crslevel']);
+					unset($_SESSION['crssublevel']);
+					unset($_SESSION['crsdesc']);
+					unset($_SESSION['crscred']);
+					unset($_SESSION['crscid']);
+					unset($_SESSION['crsid']);
+					unset($_SESSION['crsnum']);
+		
+		break;
+		
+		/********************************************************
+			end case 'createnew'...
+			
+			
+			case 'cancel' is simple, just unset all the relevant
+			session variables.
+			
+		*********************************************************/			
+		case 'cancel':
+
+					unset($_SESSION['cname']);
+					unset($_SESSION['cabr']);
+					unset($_SESSION['dbid']);
+					unset($_SESSION['create_crs_option']);	
+					unset($_SESSION['crsname']);
+					unset($_SESSION['crsdid']);
+					unset($_SESSION['crsprefix']);
+					unset($_SESSION['crslevel']);
+					unset($_SESSION['crssublevel']);
+					unset($_SESSION['crsdesc']);
+					unset($_SESSION['crscred']);
+					unset($_SESSION['crscid']);
+					unset($_SESSION['crsid']);
+					unset($_SESSION['crsnum']);
+
+		break;
+		/********************************************************
+			end case 'cancel'...
+			
+			
+			case 'add_description' gets the rich formatted html from 
+			tinymce and writes it to a file in the directory that should 
+			have already been created.
+			
+		*********************************************************/				
+		case 'add_description':	
+	
+/*
+	 			$clean_name = $_SESSION['cname'];
+				$clean_abbr = $_SESSION['cabr'];
+				$clean_dbid = $_SESSION['dbid'];
+			
+				$collpath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/colleges/'.$clean_dbid;
+		
+				if(isset($_POST['stuff']) && file_exists($collpath)) 
+				{
+					$purifier = new HTMLPurifier();
+
+					/* If magic quotes is enabled, use stripslashes, otherwise don't */
+/*
+					if (get_magic_quotes_gpc())  
+					{
+						$stuff = $purifier->purify(stripslashes(urldecode($_POST['stuff'])));
+					}
+					else 
+					{
+						$stuff = $purifier->purify((urldecode($_POST['stuff'])));						
+					}
+					/*		
+					echo $stuff;					
+					*/
+/*
+					$file = $clean_dbid.'_description.php';
+					
+					$filename = $collpath.'/'.$file ;		
+					
+					$handle = fopen($filename, "w+");
+					fwrite($handle, $stuff);
+					fclose($handle);
+					
+					unset($_SESSION['cname']);
+					unset($_SESSION['cabr']);
+					unset($_SESSION['dbid']);
+					unset($_SESSION['create_college_option']);
+					
+				}		
+*/		
+		break;
+		/********************************************************
+			end case 'add_description'...
+	
+			case "createform" just sets session variable 
+			'create_college_option'
+		*********************************************************/			
+
+		case "createform":
+				$_SESSION['create_crs_option'] = 'createform';
+		break;
+		/********************************************************
+			end case 'createform'...
+			
+			begin case 'delete'
+		*********************************************************/		
+		case "delete":
+{
+				/*********************************************************
+					Grab dbok and fsok values and create SESSION versions 
+				*********************************************************/
+				if( isset($_POST['dbok']) ? $_POST['dbok'] == 1 : false ) 
+				{
+					$_SESSION['dbok'] = true;
+				}
+				else 
+				{
+					$_SESSION['dbok'] = false;
+				}	
+				
+				if( isset($_POST['fsok']) ? $_POST['fsok'] == 1 : false ) 
+				{
+					$_SESSION['fsok'] = true;
+				}
+				else 
+				{
+					$_SESSION['fsok'] = false;
+				}	
+
+				/* Grab crsid, build path to folder */
+				$purifier = new HTMLPurifier();	
+		 		$clean_crsid = $purifier->purify(urldecode($_POST['crsid']));	
+		 		$clean_did = $purifier->purify(urldecode($_POST['did']));
+
+				require_once '../db_login.php'; 	
+				$query = 'SELECT did FROM courses WHERE crsid LIKE "'.$clean_crsid.'"';
+				$result = 	mysqli_query($db_server, $query) or die("Couldn't execute SELECT query: <br>".$query." error:". mysqli_error($db_server));
+				$fetch_result = mysqli_fetch_assoc($result);
+				$db_did = $fetch_result['did'];			 		
+		 		
+		 		if(!($db_did == $clean_did) && $_SESSION['dbok']) 
+		 		{
+					die('Department ID did not match database, what happened?');
+				} 
+				else 
+				{		 			
+					$_SESSION['crsdid'] = $clean_did;			 			
+					$_SESSION['crsid'] = $clean_crsid;	
+					/*	
+					$crspath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/depts/'.$clean_did.'/'.$clean_crsid;
+					*/
+					$crspath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/courses/'.$clean_crsid;					
+				}
+
+
+							
+				/* checks database for students enrolled in this course, if dependencies exist, die */
+				if( $_SESSION['dbok'] )
+				{
+					require_once '../db_login.php'; 	
+					$query = "SELECT * FROM stu_crs_enrolled WHERE crsid ='".$clean_crsid."';";
+					$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));
+					/*die ("Rows in result: ".mysqli_num_rows($result));*/
+					if(mysqli_num_rows($result) > 0)
+					{
+						unset($_SESSION['crsid']);
+						unset($_SESSION['crsdid']);
+						die("cannot delete course, ".mysqli_num_rows($result)." students are already enrolled!");					
+					}			
+				}
+				
+				
+					/* if dbok == true, delete the database entry */
+					if( $_SESSION['dbok'] ) 
+					{
+						require_once '../db_login.php'; 	
+						$query = 'DELETE FROM courses WHERE crsid LIKE "'.$clean_crsid.'"';
+						$result = 	mysqli_query($db_server, $query) or die("Couldn't execute DELETE query: <br>".$query." error:". mysqli_error($db_server));
+					}
+					/********************************************************
+						if fsok == false, the directory is missing and we can 
+						just go ahead and ignore it
+					*********************************************************/				
+					if( $_SESSION['fsok'] ) 
+					{
+						/* Define recursive delete function */
+						function unlinkRecursive($dir) 
+						{ 
+						   if(!$dh = @opendir($dir)) 
+						   { 
+								unset($_SESSION['crsid']);
+								unset($_SESSION['crsdid']);
+						   	die("error opening directory: ".$dir); 
+						   } 
+						   while (false !== ($obj = readdir($dh))) 
+						   { 
+								if($obj == '.' || $obj == '..') 
+								{ 
+									continue; 
+								} 
+								
+								if (!@unlink($dir . '/' . $obj)) 
+								{ 
+									unlinkRecursive($dir.'/'.$obj, true); 
+								} 
+						   } 
+						
+						   closedir($dh); 
+						    
+					      @rmdir($dir); 
+						}
+						
+						/* Call above function to delete the college */
+						unlinkRecursive($crspath);
+					}
+				
+			
+			unset($_SESSION['crsid']);
+			unset($_SESSION['crsdid']);
+			/*die('Not implemented yet, sucka!');*/
+}
+		break;
+		/********************************************************
+			end case 'delete'...
+			
+			begin case 'modify'
+		*********************************************************/			
+		case "modify":
+
+				/* Grab dbok and fsok values and create SESSION versions */
+				if( isset($_POST['dbok']) ? $_POST['dbok'] == 1 : false ) 
+				{
+					$_SESSION['dbok'] = true;
+				}
+				else 
+				{
+					$_SESSION['dbok'] = false;
+				}	
+				
+				if( isset($_POST['fsok']) ? $_POST['fsok'] == 1 : false ) 
+				{
+					$_SESSION['fsok'] = true;
+				}
+				else 
+				{
+					$_SESSION['fsok'] = false;
+				}		
+				
+
+				/* If session variable dbid isn't set, set it now. if it is set, drop value into variable */
+				if(!(isset($_SESSION['crsid']))) 
+				{	
+					$purifier = new HTMLPurifier();	
+			 		$clean_crsid = $purifier->purify(urldecode($_POST['crsid']));	
+			 		$clean_did = $purifier->purify(urldecode($_POST['did']));	
+					$_SESSION['crsid'] = $clean_crsid;		
+					$_SESSION['crsdid'] = $clean_did;
+					/* Set CID based on what was passed to script via post */					
+					require_once '../db_login.php'; 	
+					$query = 'SELECT cid FROM departments WHERE did="'.$clean_did.'"';
+					$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));
+					$fetch_result = mysqli_fetch_assoc($result);
+					$_SESSION['crscid'] = $fetch_result['cid'];
+		 		}
+		 		else 
+		 		{
+					$clean_crsid = $_SESSION['crsid'];
+				}	
+				
+				/* if dbok, then look up everything, else set to '' */
+				if( $_SESSION['dbok'] ) 
+				{
+					require_once '../db_login.php'; 	
+					$query = 'SELECT * FROM courses WHERE crsid="'.$clean_crsid.'"';
+					$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));
+					$fetch_result = mysqli_fetch_assoc($result);
+
+					$_SESSION['crsname'] = $fetch_result['crsname'];	
+					$_SESSION['crslevel'] = floor($fetch_result['crsnum']/1000)*1000;
+					$_SESSION['crssublevel'] = floor(($fetch_result['crsnum']-$_SESSION['crslevel'])/100)*100;	
+					$_SESSION['crsdesc'] = $fetch_result['crsdesc'];	
+					$_SESSION['crscred'] = $fetch_result['credithrs']; 
+					$_SESSION['crsnum'] = $fetch_result['crsnum']; 
+					
+				}
+				else
+				{
+					$_SESSION['crsname'] = '';	
+					$_SESSION['crslevel'] = '';
+					$_SESSION['crssublevel'] = '';	
+					$_SESSION['crsdesc'] = '';	
+					$_SESSION['crscred'] = '';	
+					$_SESSION['crsnum'] = '';		
+				}
+					
+				$_SESSION['create_crs_option'] = 'modify';
+
+		break;
+		/********************************************************
+			end case 'modify'...	
+			
+			begin case 'modifycommit'
+		*********************************************************/			
+		case "modifycommit":
+		 	/*$old_name = $_SESSION['crsname'];*/
+						
+			if( isset($_POST['name']) && isset($_SESSION['crsid']) ) 
+			{
+	
+				$purifier = new HTMLPurifier();	
+				$clean_name = $purifier->purify(urldecode($_POST['name'])); 	
+				$clean_did = $purifier->purify(urldecode($_POST['did'])); 	
+				$clean_prefix = $purifier->purify(urldecode($_POST['prefix']));
+				$clean_desc = $purifier->purify(urldecode($_POST['crsdesc']));
+				$clean_cred = $purifier->purify(urldecode($_POST['credhr']));	
+				$clean_crsid = $_SESSION['crsid'];				
+					
+				/********************************************************
+					Find lowest available course number based on prefix
+					if course number is unchanged, use old value
+				*********************************************************/								
+		 		$clean_prefix = $purifier->purify(urldecode($_POST['prefix']));
+		 		$clean_did = $purifier->purify(urldecode($_POST['did']));
+	
+		 		require_once '../db_login.php'; 	
+				$query = "SELECT crsnum FROM courses WHERE did='". $clean_did."' && crsnum >= '".$clean_prefix."' && crsnum < '". ($clean_prefix + 100) ."';";
+				$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));											
+
+				$result_array = array();
+				while($fetch_result = mysqli_fetch_assoc($result))
+				{
+					$result_array[] = $fetch_result['crsnum'];
+				}
+					
+				$i = 	$clean_prefix;
+				$max = $clean_prefix + 100;
+						
+				while(in_array($i, $result_array) && $i < $max) 
+				{
+					$i++;
+				}		
+
+				if($clean_prefix == ($_SESSION['crslevel']+$_SESSION['crssublevel']) && $clean_did == $_SESSION['crsdid']) 
+				{
+					$i = $_SESSION['crsnum'];
+				}
+						
+				if( $i == $max) 
+				{
+					unset($_SESSION['crsname']);
+					unset($_SESSION['crsdid']);
+					unset($_SESSION['crsprefix']);	
+					unset($_SESSION['crsdesc']);
+					unset($_SESSION['crscred']);
+					die('Sublevel Full');
+				}
+				else 
+				{
+					$fields[] = 'crsnum';
+					$values[] = $i;
+				}
+		
+				/****************************************
+				        end course number code		
+				****************************************/		
+				
+				
+				$fields[] = 'crsname';
+				$values[] = $clean_name;
+				
+				$fields[] = 'crsdesc';	
+				$values[] = $clean_desc;
+				
+				$fields[] = 'credithrs';	
+				$values[] = $clean_cred;
+				
+				$fields[] = 'did';	
+				$values[] = $clean_did;				
+				
+				/* THESE ARE PLACEHOLDERS TILL THIS LOGIC IS BUILT */
+				$fields[] = 'sec';	
+				$values[] = 1;	
+							
+				$fields[] = 'ver';	
+				$values[] = 1;				
+				
+				$fields[] = 'status';	
+				$values[] = 1;	
+
+				/********************************************************
+					update the database entry
+				*********************************************************/												
+
+				$update_str = "";
+				$i = 0;
+				while($i < count($fields) && $i < count($values))
+				{
+					$update_str .= $fields[$i].'="'.$values[$i].'"';
+					if($i < (count($fields)-1) && $i < (count($values)-1)) 
+					{
+						$update_str .= ', ';
+					}	
+					$i++;							
+				}	
+				
+				
+				$sql  = "UPDATE courses SET ";
+				$sql .= $update_str;
+				$sql .= ' WHERE crsid="'.$clean_crsid.'"';	
+				
+				/*die($sql);*/
+				$result = 	mysqli_query($db_server, $sql) or die("Couldn't execute insert query: <br>".$sql." error:". mysqli_error($db_server));														
+			
+			
+				$crspath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/courses/'.$clean_crsid;			
+
+				/*********************************************************************************
+				
+						if syllabus exists in database, get lsnid, otherwise insert into 
+						lessons table and get lsnid				
+				
+				**********************************************************************************/
+			
+				$a_sql = 'SELECT * FROM lessons WHERE crsid = "'.$clean_crsid.'" AND lsntype = "0"';			
+				$a_result = mysqli_query($db_server, $a_sql) or die("Couldn't execute insert query: <br>".$a_sql." error:". mysqli_error($db_server));											
+				$i=0;
+				$a = Array();
+				
+				while(($fetch = mysqli_fetch_assoc($a_result)) && $i < 5 ) 
+				{ 
+					$a[] = $fetch['lsnid']	;			
+					$i++;	 
+				}
+				
+							
+				if(count($a) > 0) 
+				{
+				$clean_sylid = $a[0];	
+				}
+				else 
+				{
+				date_default_timezone_set('America/Denver'); 
+				$today = date("Y-m-d");
+				$sylsql .= "INSERT INTO lessons (crsid, createDate, viewindex, lsntype, lsntitle) VALUES	".'("'.$clean_crsid.'","'.$today.'","0","0","Default Syllabus")';	
+	
+				$result = 	mysqli_query($db_server, $sylsql) or die("Couldn't execute insert query: <br>".$sylsql." error:". mysqli_error($db_server));											
+				$clean_sylid = mysqli_insert_id($db_server);						
+				}			
+	
+				$sylpath = $_SERVER['DOCUMENT_ROOT'].$baseroot.'/academics/courses/'.$clean_crsid.'/'.$clean_sylid;				
+				/********************************************************
+					write the directory if it doesn't exist
+				*********************************************************/	
+					if(!file_exists($crspath)) 
+					{
+						if(!mkdir($crspath, 0777))
+						{
+							$_SESSION['create_crs_option'] = 'default';
+							die('failed to write directory "'.$crspath.'"');
+						}	
+						chmod($crspath, 0777);
+					}
+				
+					if(!file_exists($sylpath)) 
+					{					
+						if(!mkdir($sylpath, 0777))		
+						{
+							$_SESSION['create_crs_option'] = 'default';
+							die('failed to write directory "'.$sylpath);
+						}
+						chmod($sylpath, 0777);		
+						mkdir($sylpath.'/source/');
+						chmod($sylpath.'/source/', 0777);
+						mkdir($sylpath.'/thumbs/');	
+						chmod($sylpath.'/thumbs/', 0777);						
+					}				
+
+						
+					unset($_SESSION['cname']);
+					unset($_SESSION['cabr']);
+					unset($_SESSION['dbid']);
+					unset($_SESSION['create_crs_option']);	
+					unset($_SESSION['crsname']);
+					unset($_SESSION['crsdid']);
+					unset($_SESSION['crsprefix']);
+					unset($_SESSION['crslevel']);
+					unset($_SESSION['crssublevel']);
+					unset($_SESSION['crsdesc']);
+					unset($_SESSION['crscred']);
+					unset($_SESSION['crscid']);
+					unset($_SESSION['crsid']);
+					unset($_SESSION['crsnum']);
+				}	
+		break;
+		/********************************************************
+			end case 'modifycommit'
+		*********************************************************/	
+		case "updatecrslist":
+			$purifier = new HTMLPurifier();	
+	 		$clean_cid = $purifier->purify(urldecode($_POST['cid']));
+	 		
+	 		require_once '../db_login.php'; 	
+			$query = "SELECT * FROM departments WHERE cid='". $clean_cid."';";
+			$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));											
+			
+			if(mysqli_num_rows($result)==0) 
+			{
+				echo 	'<option> No Departments </option>';
+			}			
+			
+			while($fetch_result = mysqli_fetch_assoc($result)) 
+			{
+				echo '<option value="'.$fetch_result['did'].'" data-abbr="'.$fetch_result['dabbr'].'">'.$fetch_result['dabbr'].' - '.$fetch_result['dname'].'</option>';	
+			}							
+		
+		break;
+		/********************************************************
+			end case "updatecrslist"
+		*********************************************************/		
+		case 'updatecrsnum':		
+			$purifier = new HTMLPurifier();	
+	 		$clean_prefix = $purifier->purify(urldecode($_POST['prefix']));
+	 		$clean_did = $purifier->purify(urldecode($_POST['did']));
+
+	 		require_once '../db_login.php'; 	
+			$query = "SELECT crsnum FROM courses WHERE did='". $clean_did."' && crsnum >= '".$clean_prefix."' && crsnum < '". ($clean_prefix + 100) ."';";
+			$result = 	mysqli_query($db_server, $query) or die("Couldn't execute query: <br>".$query." error:". mysqli_error($db_server));											
+
+			$result_array = array();
+			while($fetch_result = mysqli_fetch_assoc($result))
+			{
+				$result_array[] = $fetch_result['crsnum'];
+			}	
+				
+			$i = 	$clean_prefix;
+			$max = $clean_prefix + 100;
+					
+			while(in_array($i, $result_array) && $i < $max) 
+			{
+				$i++;
+			}		
+			
+			/* special case for modify screen 		*/
+			if($_SESSION['create_crs_option']=='modify' && $clean_prefix == ($_SESSION['crslevel']+$_SESSION['crssublevel']) && $clean_did == $_SESSION['crsdid']) 
+			{
+				die($_SESSION['crsnum']);
+			}
+			
+			/* Every other case */
+			if( $i == $max) 
+			{
+				die('Sublevel Full');
+			}
+			else 
+			{
+				die($i.' ');
+			}
+				
+			echo 'something broke';		
+		break;
+		
+		}	
+	}
+	else 
+	{
+		echo 'No option set';		
+	}
+}
+else 
+{
+	echo 'Not Authorized';
+}
+?>

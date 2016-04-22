@@ -1,0 +1,30 @@
+<?php  // login.php
+$db_hostname = "50.63.244.196";
+$db_database = "EfileDB";
+$db_username = "EfileDB";
+$db_password = "Pedestrian@22";
+
+		$db_server = mysqli_connect($db_hostname, $db_username, $db_password);
+	
+		if(!$db_server) die("Unable to connect to database: " . mysqli_error($db_server));	
+	
+		//Select database
+		mysqli_select_db($db_server, $db_database) or die("Unable to select database" . mysqli_error($db_server));
+			
+		phpinfo();
+
+/*
+CREATE TABLE `members` (
+  `id` int(10) NOT NULL auto_increment,
+  `username` varchar(65) NOT NULL default '',
+  `password` varchar(128) NOT NULL default '',
+  `fname` varchar(50) NOT NULL,
+  `lname` varchar(50) NOT NULL,
+  `email` text NOT NULL,
+  `gender` varchar(8) NOT NULL,
+  `createDate` date NOT NULL,
+  `salt` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+*/
+?>

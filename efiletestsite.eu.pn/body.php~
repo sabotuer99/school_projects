@@ -1,0 +1,148 @@
+<body>
+
+	<div class="container_24">
+	
+		<div id="pageheader" class="container_24">
+			<div id="wyologo">
+				<img src="css/wyoming_logo_fixed.gif" alt="Wyoming Logo" >			
+			</div>				
+
+			<div id="titleblock">
+				<h1>Wyoming Department of Revenue</h1>
+				<hr>
+				<h2>Property Tax E-File</h2>
+			</div>
+		</div>
+		
+		<div id="mainbody" class="container_24">
+		
+		<div id="loginbox">
+			<strong>Welcome to the Wyoming Department of Revenue property tax e-file system</strong>
+			<br>
+			<hr>
+			<br>
+			<p>Existing user login</p>
+			<table summary="" >
+				<tr>
+					<td>User Name:</td>
+					<td><input type="text" id="regusername"></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><span id="passwordmessage">(password is case sensitive)</span></td>
+				<tr>
+					<td></td>
+					<td><button id="signinbutton">Sign In</button></td>
+				</tr>	
+				</tr>				
+			</table>	
+			<hr><br>
+			<span>Register as a new user</span>
+			<button onclick="toggleDisplay('registrationform',this)">Show</button><br><br>
+			<table summary="" id="registrationform">
+				<tr>
+					<td>User Name:</td>
+					<td><input type="text" id="regusername"></td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td><input type="text" id="regemail"></td>
+				</tr>
+				<tr>
+					<td>First Name:</td>
+					<td><input type="text" id="regfname"></td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td><input type="text" id="reglname"></td>
+				</tr>
+				<tr>
+					<td>Title:</td>
+					<td><input type="text" id="regtitle"></td>
+				</tr>
+				<tr>
+					<td>Phone:</td>
+					<td><input type="text" id="regphone"></td>
+				</tr>
+				<tr>
+					<td>Fax:</td>
+					<td><input type="text" id="regfax"></td>
+				</tr>
+				<tr>
+					<td>Role:</td>
+					<td><select id="roleselect">
+							<option value="staff" selected>Company Staff</option>
+							<option value="agent">Third Party Tax Agent</option>
+							<option value="officer">Company Officer</option>
+							<option value="government">Government Official</option>				
+						</select>
+					</td>
+				</tr>				
+				<tr id="agencyselect" >
+					<td>Company Name <a style="background:yellow;" title="This is the company you work for. If you represent multiple companies, you will be able to add them to your account after you are registered.">?</a> :</td>
+					<td><input type="text" id="regagency" ></td>
+				</tr>
+				<tr>
+					<td>Mailing Address 1:</td>
+					<td><input type="text" id="regaddress1"></td>
+				</tr>
+				<tr>
+					<td>Mailing Address 2:</td>
+					<td><input type="text" id="regaddress2"></td>
+				</tr>
+				<tr>
+					<td>Mailing Address 3:</td>
+					<td><input type="text" id="regaddress3"></td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td><input type="text" id="regcity"></td>
+				</tr>
+				<tr>
+					<td>Country:</td>
+					<td><select id="countryselect">
+							<option value="US" selected>United States</option>
+							<option value="Mex">Mexico</option>
+							<option value="Can">Canada</option>			
+						</select>
+					</td>
+				</tr>		
+				<tr>
+					<td>State:</td>
+					<td><input type="text" id="regstate"></td>
+				</tr>
+				<tr>
+					<td>Zip:</td>
+					<td><input type="text" id="regzip"></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password"></td>
+				</tr>
+				<tr>
+					<td>Confirm Password:</td>
+					<td><input type="password"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><span id="passwordmessage">(password is case sensitive)</span></td>
+				</tr>				
+				<tr>
+					<td></td>
+					<td><button id="registerbutton">Register</button></td>
+				</tr>	
+			</table>								
+		</div>		
+		
+		
+		</div>
+		
+	
+	</div>
+
+
+</body>

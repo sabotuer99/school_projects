@@ -1,0 +1,162 @@
+/*************************
+-----Colors----------------
+*************************/
+
+	body {               
+ 		background: midnightblue;
+ 		background-image:url('blue-noise.gif');
+ 		color: midnightblue;
+ 		}
+
+
+	#mainbody, #header {
+		background: antiquewhite;		
+		}	
+	
+	#maincontentdiv {
+		background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#faebd7));
+	   background: -webkit-linear-gradient(top, #ffffff, #faebd7);
+	   background: -moz-linear-gradient(top, #ffffff, #faebd7);
+	   background: -ms-linear-gradient(top, #ffffff, #faebd7);
+	   background: -o-linear-gradient(top, #ffffff, #faebd7);	
+	}
+
+	#mainbody {
+		background: -webkit-gradient(linear, left top, left bottom, from(#faebd7), to(#ffffff));
+	   background: -webkit-linear-gradient(top, #faebd7, #ffffff);
+	   background: -moz-linear-gradient(top, #faebd7, #ffffff);
+	   background: -ms-linear-gradient(top, #faebd7, #ffffff);
+	   background: -o-linear-gradient(top, #faebd7, #ffffff);	
+	}
+
+	#header{
+		background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#faebd7));
+	   background: -webkit-linear-gradient(top, #ffffff, #faebd7);
+	   background: -moz-linear-gradient(top, #ffffff, #faebd7);
+	   background: -ms-linear-gradient(top, #ffffff, #faebd7);
+	   background: -o-linear-gradient(top, #ffffff, #faebd7);
+	   border-bottom: 	1px dotted black;
+		}
+		
+	.nav:hover , .nav:active{
+		background: 	midnightblue;
+		color: white;
+		}
+		
+	.subnav>a:hover , .subnav>a:active{
+		background: royalblue;
+		color: white;
+		}
+
+	.toggle{
+		background-color: transparent;
+		}
+		
+	.toggle[data-state=side]{
+		background-image:url('bluerighttriangle.gif');
+		}
+		
+	.toggle[data-state=down]{
+		background-image:url('bluedowntriangle.gif');
+		}
+
+	.nav:hover ~ .toggle[data-state=side] , .nav:active  ~ .toggle[data-state=side]{
+		background-image:url('whiterighttriangle.gif');		
+		}
+		
+	.nav:hover ~ .toggle[data-state=down] , .nav:active  ~ .toggle[data-state=down]{
+		background-image:url('whitedowntriangle.gif');		
+		}
+		
+	.subnav {
+		color: royalblue;			
+		}
+		
+	.navdiv{
+		border-bottom: 1px dotted black;		
+		}
+		
+/*	.navdiv.last{
+		border-bottom: 1px dotted black;		
+		}*/
+		
+	hr{
+		border-color: midnightblue;
+		}
+	
+		
+	td>input, td>select , td>option {
+		box-shadow: 0px 0px 3px midnightblue;
+		}
+	
+	#regbox{
+		background: whitesmoke;
+		}	
+	
+	.greentext {
+		color: green;
+		}	
+		
+	.tableheader{
+		border-bottom: thin dotted black;	
+		color: royalblue;
+		}
+	
+	/*************************
+	----- BUTTONS-------------
+	*************************/
+	
+.myButton {
+	border-width: thin;
+   border-top: 1px solid #6f6f75;
+   background: midnightblue;
+   background: -webkit-gradient(linear, left top, left bottom, from(royalblue), to(midnightblue));
+   background: -webkit-linear-gradient(top, royalblue, midnightblue);
+   background: -moz-linear-gradient(top, royalblue, midnightblue);
+   background: -ms-linear-gradient(top, royalblue, midnightblue);
+   background: -o-linear-gradient(top, royalblue, midnightblue);
+   padding: 1px 5px;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   text-decoration: none;
+   vertical-align: middle;
+   font-size: 1em;
+   }
+   
+.myButton:active {
+	-webkit-box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   background: #001d30;
+   color: #ccc;
+   }
+   
+.myButton:hover {
+	-webkit-box-shadow: black 0 0 5px;
+   -moz-box-shadow: black 0 0 5px;
+   box-shadow: black 0 0 5px;
+   }
+   
+  	/*************************
+	----COAT OF ARMS PAGE-----
+	*************************/	
+	
+	#coa_box {
+		background-color: royalblue;
+		
+		background-image:url('royalbl_background.jpg');		
+	}
+
+  	/*************************
+	----COLLEGE MANAGER-----
+	*************************/	
+	.collsubtable{
+	background-color: burlywood;	
+	border-color: midnightblue;
+	}

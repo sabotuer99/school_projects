@@ -1,0 +1,498 @@
+/*************************
+-----HTML5----------------
+*************************/
+	@font-face{
+		font-family: poorrich;
+		src: url('POORICH.TTF');		
+		}
+
+	section, header, footer, aside, article, nav {
+		display: block;
+		}
+	
+	
+	body {               
+ 		font-family: Century Gothic, avant garde, futura, URW Gothic L, sans-serif;
+ 		font-size: 14px;
+ 		overflow-y: scroll;
+ 		}
+		
+	.rounded {
+		-moz-border-radius: 15px;
+		-webkit-border-radius: 15px;
+		border-radius: 15px;
+		}
+	
+	.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+		}	
+	
+	/*************************
+	-----NAVIGATION-----------
+	*************************/			
+	
+	a {
+		text-decoration: none;
+		}
+
+	a:hover {
+		text-decoration: none;
+		cursor: pointer;
+		}
+
+	#loginarea {
+		float: right;	
+		margin-top: 3px;
+		}	
+
+	h1{
+		font-family: poorrich, serif;
+		font-size: 48px;	
+		text-transform:uppercase;	
+		font-weight: 100;
+		text-shadow: 1px 1px #000000;
+		padding-top: 25px;
+		padding-bottom: 25px;
+		margin: 0px 5px;
+		height: 65px;
+		line-height: 65px;
+		/*line-height: 150px;*/
+		}
+		
+	#titleh1{
+		margin-left: 0px;
+		}
+		
+	#titleh1>hr{
+		margin: 0px;		
+		border-style: dotted;
+		}
+		
+	h1>span{
+		display: block;
+		float: left;	
+		margin-right: 10px;
+		}		
+		
+	h1>span::first-letter {
+		font-size: 145%;		
+		}
+		
+	.nav {
+		width: 125px;		
+		display: block;
+		font-size: 18px;
+		float: right;
+		height: 27px;
+		}
+		
+	.nav>a{
+		color: inherit;
+		}
+		
+	.subnav>a{
+		color: inherit;		
+		}
+
+	.navdiv {
+		padding-left: 10px;
+		display: block;		
+		}
+		
+	.toggle{
+		border: none;	
+		height: 27px;
+		width: 15%;
+		background-size: 10px 10px;
+		background-repeat: no-repeat;
+		background-position: center center;		
+		margin-left: -10px;
+		display: block;
+		float: left;
+		}
+
+	.toggle[data-state=side]:hover, .toggle[data-state=down]:hover{
+		cursor: pointer;
+		}	
+
+	.subnav{
+		height: 0px;
+		overflow: hidden;
+		transition: height .5s;		
+		-webkit-transition: height .5s;
+		font-size: 14px;
+		padding-left: 0px;	
+		width: 100%;	
+		}
+
+	.contentbox{
+		min-height: 100px;		
+		}
+		
+	.subnav>a {
+		width: 100%;		
+		display: block;
+		}
+		
+	#sidebarlinks {
+		font-size: 12px;	
+		font-weight: normal;	
+		}
+
+	/*************************
+	-----LOGIN AREA-----------
+	*************************/		
+		
+	#darkthemebutton {
+			border: none;
+	   background: #191970;
+	   background: -webkit-gradient(linear, left top, left bottom, from(#07072e), to(#191970));
+	   background: -webkit-linear-gradient(top, #07072e, #191970);
+	   background: -moz-linear-gradient(top, #07072e, #191970);
+	   background: -ms-linear-gradient(top, #07072e, #191970);
+	   background: -o-linear-gradient(top, #07072e, #191970);
+	   -webkit-box-shadow: antiquewhite 0 0 4px;
+	   -moz-box-shadow: antiquewhite 0 0 4px;
+	   box-shadow: antiquewhite 0 0 4px;
+	   border-radius:2px;
+	   height: 16px;
+	   width: 16px;
+	   margin-top: -3px;
+	   }
+	#darkthemebutton:hover {
+	   background: #282c78;
+	   }
+	#darkthemebutton:active {
+	   background: #000000;
+	   }
+	   
+	#lightthemebutton {
+			border: none;
+			background: #ffffff;
+	   background: -webkit-gradient(linear, left top, left bottom, from(#faebd7), to(#ffffff));
+	   background: -webkit-linear-gradient(top, #faebd7, #ffffff);
+	   background: -moz-linear-gradient(top, #faebd7, #ffffff);
+	   background: -ms-linear-gradient(top, #faebd7, #ffffff);
+	   background: -o-linear-gradient(top, #faebd7, #ffffff);
+	   -webkit-box-shadow:  black 0 0 4px;
+	   -moz-box-shadow:  black 0 0 4px;
+	   box-shadow: black 0 0 4px;
+	   border-radius:2px;
+	   height: 16px;
+	   width: 16px;
+		margin-top: -3px;
+	   }
+	#lightthemebutton:hover {
+	   background: #fcd49f;
+	   }
+	#lightthemebutton:active {
+	   background: #ffffff;
+	   }
+
+	#loginarea {
+		font-size:13px; 		
+		}
+	
+	#loginbox span {
+		display: block;
+		margin-right: 5px;
+		margin-top: 0px;
+		}
+	
+	#loginbox input, #loginbox select {
+		margin-right: 5px;
+		width: 90px;
+		height: 15px;	
+		}
+		
+	#themeselector{
+		float: right;	
+		vertical-align: middle;	
+		height: 24px;	
+		line-height: 24px;
+		display: block;
+		margin-right: 5px;
+		}
+	
+	#themeselector span {	
+
+
+		}		
+		
+	#logintable{
+		clear: right;			
+		}
+	
+	.nopad {
+		padding: 0px;		
+		}	
+	
+	/*************************
+	-----HEADER---------------
+	*************************/		
+		
+		#coatofarms{
+			margin-left: 15px;
+			margin-right: 10px;
+			margin-top: 8px;
+			height:100px;
+			float:left;
+			} 
+
+		#breadcrumbs{
+			float: left;
+			width: 600px;			
+			}
+	
+	#header {
+
+		}		
+		
+
+		
+	input, select {
+			border: 0px;
+			box-shadow: 0px 0px 3px black;		
+			height: 20px;
+			display: inline-block;
+		}		
+
+	/*************************
+	-----CONTENT AREA---------
+	*************************/	
+	
+	
+	#maincontent{
+		padding: 10px;
+	}
+		
+	#maincontent, #maincontent p{
+		font-family: Verdana, Geneva, sans-serif;	
+	}
+		
+	#maincontent h2 {
+ 		font-family: Century Gothic, avant garde, futura, URW Gothic L, sans-serif;	
+	}
+		
+	#maincontent td {
+		padding: 4px;	
+	}
+
+	h2{
+			
+	}	
+	
+	#rightsidediv, #maincontentdiv, #leftsidenavdiv {
+	display: table-cell;
+	float: none;
+	vertical-align: top;
+	
+	}
+	
+	.nomargin{
+	margin: 0;	
+	}	
+		
+	/*************************
+	----REGISTRATION FORM-----
+	*************************/	
+
+	#regbox {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 40px;
+		margin-bottom: 40px;
+		padding: 20px 20px;
+		border-radius: 10px;
+		box-shadow: 0px 0px 5px black;
+		width: 60%;
+		/*background-color: whitesmoke;*/
+		text-align: center;
+		}	
+	
+	#regbox img {
+		width: 20px;
+		height: 20px;	
+	}
+
+	#regbox input, #regbox select , #regbox option {
+		width: 155px;
+		margin: 0px 5px;
+		border: 0px;
+		padding: 0px;
+		height: 18px;
+
+	}
+
+	#regbox button {
+		float: right;
+		margin-top: 10px;
+	}
+
+	#registrationform td {
+		padding: 0;	
+	}
+
+	/*************************
+	----COAT OF ARMS PAGE-----
+	*************************/	
+	
+	#coa_box {
+		padding: 20px;
+		border-radius: 80px;
+		box-shadow: 0px 0px 5px black; 
+		margin-bottom: 20px;
+	}
+
+	/*************************
+	----COLLEGE MANAGER-----
+	*************************/
+	
+	.notableborder{
+		border-spacing: 0px;
+		padding: 0px !important;
+		/*transition: height .5s;*/
+	}
+	
+	.collsubtable{
+		transition: height .5s, border 1s;
+		-webkit-transition: height .5s, border 1s;
+		width: 99%;
+	}
+
+	.collsubtable table{
+		width: 100%;	
+		margin-bottom: 0px;
+	}
+
+	#collegestable{
+		margin-left:auto;
+		margin-right:auto;
+	}
+
+	#collegestable tr td:nth-of-type(1), #collegestable tr td:nth-of-type(2){
+		width: 10%;
+	}
+
+	#collegestable tr td:nth-of-type(3)
+	{
+		width: 35%;	
+	}
+	
+	.myButton img{
+		height: 16px;
+		display: none;
+	}
+
+	.myButton.delete {
+		border-radius: 8px;
+		border: none;
+		padding: 0;
+		font-size: 0;
+		background-color:inherit;
+		-webkit-box-shadow: black 0 0 0;
+		box-shadow: black 0 0 0;
+		background-image: url('/css/DeleteButton.png');
+		background-size: 16px;
+		height: 16px;
+		width: 16px;
+	}
+
+	.myButton.edit {
+		border: none;
+		padding: 0;
+		font-size: 0;
+		background-color: lightgrey;
+		-webkit-box-shadow: black 0px 0px 2px;
+		box-shadow: black 0px 0px 2px;
+		background-image: url('/css/EditButton.png');
+		background-size: 16px;
+		height: 16px;
+		width: 16px;
+	}
+
+	body:after {
+		content: '';
+		z-index: -1;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		opacity: .6;
+		background: -webkit-linear-gradient(top, black, transparent);
+	}
+
+	.tbl_innerdiv {
+		position: absolute;
+		overflow: hidden;
+		width: 100%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.tbl_outerdiv {
+		position: relative;
+	}
+
+	/*************************
+	----     RUBRICS     -----
+	*************************/
+	
+	.rubric_table td {
+		border-right: 1px solid;
+		border-left: 1px solid;	
+	}	
+	
+	.rubric_table tr>td:last-of-type {
+		width: 12%;		
+	}
+	
+	.rubric_table tr {
+		border-bottom: 1px dotted;
+	}	
+	
+	.rubric_table {
+		border: 1px solid;
+	}	
+/*	
+	.rub2col tr>td:first-of-type {
+		width: 88%;
+	}
+
+	.rub3col tr>td:first-of-type {
+		width: 44%;	
+	}
+
+	.rub3col tr>td:last-of-type {
+		width: 12%;	
+	}*/
+
+	.rubric_table img {
+		width: 100px;
+	}
+
+	.rubinner {
+	border: none;	
+	}
+
+	.rubinner tr>td:first-of-type {
+	border-left: none; 	
+	}
+
+	.rubinner tr>td:last-of-type {
+	border-right: none; 	
+	}
+
+	.rubinnerdiv {
+		overflow: hidden;	
+		transition: height .5s, border 1s;
+		-webkit-transition: height .5s, border 1s;
+	}
+
+	.rubinner tr:last-of-type {
+	border-bottom: none; 	
+	}

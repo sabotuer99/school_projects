@@ -1,0 +1,156 @@
+/*************************
+-----Colors----------------
+*************************/
+
+	body {               
+ 		background: black;
+ 		background-image:url('black-noise.gif');
+ 		color: white;
+ 		}
+
+	#mainbody, #header {
+		background: midnightblue;		
+		}	
+		
+	#maincontentdiv {
+		background: -webkit-gradient(linear, left top, left bottom, from(#121250), to(#191970));
+	   background: -webkit-linear-gradient(top, #121250, #191970);
+	   background: -moz-linear-gradient(top, #121250, #191970);
+	   background: -ms-linear-gradient(top, #121250, #191970);
+	   background: -o-linear-gradient(top, #121250, #191970);	
+	}
+
+	#mainbody {
+		background: -webkit-gradient(linear, left top, left bottom, from(#191970), to(#05051D));
+	   background: -webkit-linear-gradient(top, #191970, #05051D);
+	   background: -moz-linear-gradient(top, #191970, #05051D);
+	   background: -ms-linear-gradient(top, #191970, #05051D);
+	   background: -o-linear-gradient(top, #191970, #05051D);	
+	}
+
+	#header {	
+		background: -webkit-gradient(linear, left top, left bottom, from(#07072e), to(#191970));
+	   background: -webkit-linear-gradient(top, #07072e, #191970);
+	   background: -moz-linear-gradient(top, #07072e, #191970);
+	   background: -ms-linear-gradient(top, #07072e, #191970);
+	   background: -o-linear-gradient(top, #07072e, #191970);
+		border-bottom: 1px dotted white;	
+		}	
+		
+	.nav:hover , .nav:active{
+		background: white;
+		color: midnightblue;
+		}
+		
+	.subnav>a:hover , .subnav>a:active{
+		background: yellow;
+		color: midnightblue;
+		}
+		
+	.toggle{
+		background-color: transparent;
+		}
+		
+	.toggle[data-state=side]{
+		background-image:url('whiterighttriangle.gif');
+		}
+		
+	.toggle[data-state=down]{
+		background-image:url('whitedowntriangle.gif');
+		}
+		
+	.subnav {
+		color: yellow;			
+		}
+		
+	.navdiv {
+		border-bottom: 1px dotted white;		
+		}
+		
+	.greentext {
+		color: #00FF00;
+		}
+/*	.navdiv.last{
+		border-bottom: 1px dotted white;		
+		}*/
+		
+		hr{
+		border-color: white;
+		}
+	
+		td>input, td>select , td>option {
+		box-shadow: 0px 0px 3px black;
+		}
+	
+	#regbox{
+		background: #11114E;
+		}	
+			
+	.tableheader{
+		border-bottom: thin dotted white;	
+		color: yellow;
+		}
+	
+	
+/*************************
+----- BUTTONS-------------
+*************************/
+	
+.myButton {
+	border-width: thin;
+   border-top: 1px solid #6f6f75;
+   background: #000000;
+   background: -webkit-gradient(linear, left top, left bottom, from(#424242), to(#000000));
+   background: -webkit-linear-gradient(top, #424242, #000000);
+   background: -moz-linear-gradient(top, #424242, #000000);
+   background: -ms-linear-gradient(top, #424242, #000000);
+   background: -o-linear-gradient(top, #424242, #000000);
+   padding: 1px 5px;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   text-decoration: none;
+   vertical-align: middle;
+   font-size: 1em;
+   }
+   
+.myButton:active {
+	-webkit-box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   box-shadow: rgba(0,0,0,1) 0 -1px 0;
+   background: #001d30;
+   color: #ccc;
+   }
+   
+.myButton:hover {
+	-webkit-box-shadow: white 0 0 5px;
+   -moz-box-shadow: white 0 0 5px;
+   box-shadow: white 0 0 5px;
+   }
+
+/*************************
+----TINYMCE INTERFACE-----
+*************************/
+
+/* Fuck it */
+
+/*************************
+----COAT OF ARMS PAGE-----
+*************************/	
+	
+	#coa_box {
+		background-image:url('grey_background.jpg');		
+	}		
+	
+  	/*************************
+	----COLLEGE MANAGER-----
+	*************************/	
+	.collsubtable{
+	background-color: navy;	
+	border-color: white;
+	}

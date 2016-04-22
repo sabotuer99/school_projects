@@ -1,0 +1,3 @@
+<?php
+$timeInterval=15;
+?>

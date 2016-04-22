@@ -1,0 +1,193 @@
+<?php 
+session_start();
+require '../db_login.php';
+
+
+//find optional fields*/
+
+foreach ($_POST as $ofield => $ovalue)
+	{
+		preg_match("/opt[\d]{1,}/i", $ofield);
+		$optionals[]= $ovalue;
+	}
+
+// Loop through post, validating each field, then drop them into 
+// a injection cleaned array */
+
+foreach ($_POST as $field => $value)
+	{
+		/*/ javascript performs encodeURIComponent() before sending via POST, so we 
+		// decode here...*/
+		$field = urldecode(stripcslashes($field));
+		$value = urldecode(stripcslashes($value));	
+		
+		/* /Check for blanks, add required fields to array*/
+		if ($value == "" && !in_array($field, $optionals))
+		{
+			$blanks[] = $field;				
+		}		
+		
+		/* /Validate*/
+		if(!empty($value)) 
+		{	/*/
+			//check first name and last name
+			//*/
+			if(preg_match("/fname/i", $field) || preg_match("/lname/i", $field) ) 
+			{
+				if(!preg_match("/^[A-Za-z' -]{1,50}$/", $value)) 
+				{
+					$errors[]=mysqli_real_escape_string($db_server, strip_tags(trim($value)))." is not a valid name.";
+				}
+				/* /$insertarr[$field] = ucfirst(mysqli_real_escape_string($db_server, strip_tags(trim($value))));*/
+				$fields[]  = mysqli_real_escape_string($db_server, strip_tags(trim($field)));
+				$values[] = ucfirst(mysqli_real_escape_string($db_server, strip_tags(trim($value))));
+				$_SESSION[$field]= ucfirst(mysqli_real_escape_string($db_server, strip_tags(trim($value))));
+			}
+			/*/
+			//check password hash
+			//	*/
+			elseif(preg_match("/password/i", $field) ) 
+			{
+				if(!preg_match("/^[a-f0-9]{128}$/", $value)) 
+				{
+					$errors[]= mysqli_real_escape_string($db_server, strip_tags(trim($value)))." is not a valid hash.";
+				}
+				//$fields[]  = mysqli_real_escape_string($db_server, strip_tags(trim($field)));
+				//$values[] = mysqli_real_escape_string($db_server, strip_tags(trim($value)));
+			}	
+			/*/
+			//check email address
+			//	*/
+			elseif(preg_match("/email/i", $field)) 
+			{
+				if(!preg_match("/^.+@.+\\..+$/", $value)) 
+				{
+					$errors[]=mysqli_real_escape_string($db_server, strip_tags(trim($value)))." is not a valid email address.";
+				}
+				/* /$insertarr[$field] = mysqli_real_escape_string($db_server, strip_tags(trim($value))); */
+				$fields[] = mysqli_real_escape_string($db_server, strip_tags(trim($field)));
+				$values[] = mysqli_real_escape_string($db_server, strip_tags(trim($value)));
+				$_SESSION[$field]= mysqli_real_escape_string($db_server, strip_tags(trim($value)));				
+			}
+			/*/
+			//check username
+			//	*/
+			
+			elseif(preg_match("/username/i", $field)) 
+			{
+				$usrlength = strlen($value);
+				$patt = "/^[\w\d\.\?!_-]{".$usrlength."}$/i";
+				if(!preg_match($patt, $value)) 
+				{
+					$errors[] = mysqli_real_escape_string($db_server, strip_tags(trim($value)))." is not a valid username.";
+				}
+
+				/*/ variable $username is used below to check for duplicate  */
+				
+				$fields[] = mysqli_real_escape_string($db_server, strip_tags(trim($field)));
+				$username = mysqli_real_escape_string($db_server, strip_tags(trim($value)));		
+				$values[] = $username;
+
+			}		
+			/* /
+			//drop in all other POST values that aren't from list of optionals
+			//			*/	
+								
+			elseif(!preg_match("/opt[\d]{1,}/i", $field))
+			{
+				$_SESSION[$field] = mysqli_real_escape_string($db_server, strip_tags(trim($value)));	
+				$fields[] = mysqli_real_escape_string($db_server, strip_tags(trim($field)));
+				$values[] = mysqli_real_escape_string($db_server, strip_tags(trim($value)));		
+			}
+							
+		}		
+	}
+
+//Rehash password with random salt, add to insert array */
+
+$pwdHash_insert = mysqli_real_escape_string($db_server, strip_tags(trim($_POST['password'])));	
+$salt = rand(100000000, 999999999);
+$message = $pwdHash_insert . $salt;
+//$insertarr['password'] = hash("whirlpool", $message);
+$fields[] = 'password';
+$values[] = hash("whirlpool", $message);
+//$insertarr['salt'] = $salt;
+$fields[] = 'salt';
+$values[] = $salt;
+		
+//
+//Check for duplicate username
+//
+
+$query 	= 	"SELECT COUNT(*) as matches FROM sysusers WHERE UPPER(username) LIKE '". strtoupper($username)."'";
+$result 	= 	mysqli_query($db_server, $query)
+ 	  							or die("Couldn't execute query: ".$query." error:". mysqli_error($db_server));
+
+$row = mysqli_fetch_assoc($result);
+
+if (!$row['matches'] == "0")
+	  {
+	  $errors[]="Username not available.";
+	  }
+
+if(isset($blanks))
+{
+		$error_messages = "The following fields are blank.
+		    Please enter the required information:  ";
+		foreach($blanks as $v)
+		{
+				$error_messages .= $v.", ";		
+		}
+}
+
+if(@is_array($errors)) 
+{
+		if(!isset($error_messages)) 
+		{
+				$error_messages = '';
+		}
+		foreach($errors as $q)
+		{
+				$error_messages .= $q;	
+		}
+		
+		$error_messages .= " Please try again. <br>";
+}
+
+// if there are errors or blank fields, echo error message and end; 
+
+if(isset($error_messages)) 
+{
+		die($error_messages);	
+}
+else 
+{
+  
+		/*/	Add new user	*/ 
+		
+		date_default_timezone_set('America/Denver'); 
+		$today = date("Y-m-d");
+		$fields_str = implode(",", $fields);
+		$values_str = implode('","',$values);
+		$fields_str .= ",createDate";
+		$values_str .= '"'.",".'"'.$today;
+		  
+		$sql  = "INSERT INTO sysusers ";
+		$sql .= "(".$fields_str.")";
+		$sql .= " VALUES ";
+		$sql .= "(".'"'.$values_str.'"'.")";
+		  
+		$result = mysqli_query($db_server, $sql) 
+		  							or die("Couldn't execute insert query: ".$sql." error:". mysqli_error($db_server));
+		  							
+		$_SESSION['auth'] = TRUE;
+		$_SESSION['firstlast']=$_SESSION['fname']." ".$_SESSION['lname'];
+		
+		/*/ echo whatever code to execute on successful completion*/
+		
+		echo 'Success! Log in above to continue...';
+		echo $sql;
+
+}
+
+?>

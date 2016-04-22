@@ -1,0 +1,280 @@
+<?php 
+/********************************************************
+	This section checks to make sure the path to the 
+	include file exists, then drops it in
+*********************************************************/
+session_start();
+$path = $_SERVER['DOCUMENT_ROOT'].'/includes';
+if(file_exists($path)) 
+{
+	require_once $_SERVER['DOCUMENT_ROOT'].'/includes/includes.php';	
+}
+else 
+{
+	require_once $_SERVER['DOCUMENT_ROOT'].'/whorten/includes/includes.php';	
+}
+//End include code
+?>
+<h2>How the Peer Grading System (PGS) Works</h2>
+<p>
+The Peer Grading System (PGS) is the key component to achieving the Academy’s educational and financial goals.  
+It is this system that enables the school to conduct nuanced, subjective testing without hiring a grading service such as 
+Taskstream or hiring a myriad of staff, either of which would greatly increase overhead and make the goal of offering 
+higher education tuition free nearly impossible to achieve.
+</p>
+<p>
+The system assumes that students who have already successfully completed a given assignment have proven themselves to 
+be sufficiently competent in that task to evaluate their peers’ work, provided they are given the necessary tools.  
+The tools, in this case, are a clear, specific, and thorough rubric, easy to understand instructions, and illustrative 
+examples and guidelines. 
+</p>
+
+<h3>Simulated Example Assignment</h3>
+
+<p>
+	For this assignment, a student has the following instructions:
+</p>
+<blockquote>
+	<em>Complete a sketch of your favorite woodland creature. It may be in color or monotone, but should be in a realistic style and
+	include detail and shading.  The work should focus just on the animal, it is not necessary to include background scenery.</em>  
+</blockquote>
+<br>
+<p>This is the student's submission:</p>
+<div style="width:100%">
+<img width="400px" style="margin-right:auto;margin-left:auto;" src="/about/Fox_Drawing.jpg" alt="Student Submission" title="Work submitted by student">
+</div>
+<br>
+<strong>Grade this submission with the following rubrics:</strong>
+<table class="rubric_table rub2col" summary="" >
+	<tr style="border-bottom:none">
+		<td class="tableheader" style="border-bottom:none">
+			Original Work: Use Google image search or other resource to determine if the work was that of the student or if the work was copied/plagiarized
+		</td>
+		<td style="border-bottom:none">
+			<button class="myButton" data-target="rubric1div" onclick="toggle_rubric_table(this)">Show</button>
+		</td>
+	</tr>
+	<tr style="border-top:none">
+		<td colspan="3" style="padding: 0px">
+			<div class="rubinnerdiv" id="rubric1div" style="height:0px;">
+				<table summary="" style="margin:0px;border-top:none;width:100%" class="rubinner">
+					<tr class="tableheader" style="border-top:1px dotted">	
+						<td>Description</td>
+						<td width="65px">Grade</td>
+					</tr>
+					<tr>
+						<td>
+							The work is the students original work 
+						</td>		
+						<td>
+							<input type="radio" name="rubric1" value="10">  A+
+						</td>		
+					</tr>
+					<tr>
+						<td>
+							The work is not the students original work 
+						</td>
+						<td>
+							<input type="radio" name="rubric1" value="1">  F-
+						</td>
+				
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+
+</table>
+
+<table class="rubric_table rub3col" summary="" >	
+
+	<tr style="border-bottom:none">
+		<td colspan="2" class="tableheader" style="border-bottom:none">
+			Style: The submission is in a realistic style
+		</td>
+		<td style="border-bottom:none">
+			<button class="myButton" data-target="rubric2div" onclick="toggle_rubric_table(this)">Show</button>
+		</td>
+	</tr>
+	<tr style="border-top:none">
+		<td colspan="3" style="padding: 0px">
+			<div class="rubinnerdiv"  id="rubric2div" style="height:0px;">
+				<table summary="" style="margin: 0px;border-top:none;width:100%" class="rubinner">
+					<tr class="tableheader" style="border-top:1px dotted">
+						<td>Description</td>
+						<td ><div style="width:210px;">Examples</div></td>
+						<td>Grade</td>
+					</tr>	
+					<tr>
+						<td >
+							The student submission is exemplary. High degree of realism, detail, and finish.
+						</td>		
+						<td >
+							<a href="http://03varvara.files.wordpress.com/2012/02/00-albrecht-dc3bcrer-a-rabbit-1502.jpg?w=1200&h=1320" target="_blank" ><img  src="http://03varvara.files.wordpress.com/2012/02/00-albrecht-dc3bcrer-a-rabbit-1502.jpg?w=1200&h=1320" alt="" ></a> 
+							<a href="http://images.fineartamerica.com/images-medium-large-5/rabbit-bly-pope.jpg" target="_blank" ><img  src="http://images.fineartamerica.com/images-medium-large-5/rabbit-bly-pope.jpg" alt="" ></a> 
+						</td>			
+						<td>
+							<input type="radio" name="rubric2" value="10">  A+
+							<input type="radio" name="rubric2" value="9">  A-
+						</td>			
+					</tr>
+					
+					<tr>		
+						<td >
+							The submission is commendable, with above average realism and attention to detail.
+						</td>	
+						<td >
+							<a href="http://www.free-hdwallpapers.com/wallpapers/animals/538513.jpg" target="_blank" ><img src="http://www.free-hdwallpapers.com/wallpapers/animals/538513.jpg" alt="" ></a> 
+							<a href="http://www.easy-drawings-and-sketches.com/images/how-to-draw-a-rabbit09.jpg" target="_blank" ><img  src="http://www.easy-drawings-and-sketches.com/images/how-to-draw-a-rabbit09.jpg" alt="" ></a> 
+						</td>	
+						<td>
+							<input type="radio" name="rubric2" value="8">  B+
+							<input type="radio" name="rubric2" value="7">  B-
+						</td>
+					</tr>	
+				
+					<tr>
+						<td >
+							The work is acceptable. Clearly shows effort was made to achieve realistic style and fair amount of detail.
+						</td>	
+						<td >
+							<a href="http://3.bp.blogspot.com/-6r96FYI6ARo/URgFElyFNKI/AAAAAAAAAdc/qg7gxLSJmsQ/s1600/Pygmy+Bunny+sketch.jpg" target="_blank" ><img  src="http://3.bp.blogspot.com/-6r96FYI6ARo/URgFElyFNKI/AAAAAAAAAdc/qg7gxLSJmsQ/s1600/Pygmy+Bunny+sketch.jpg" alt="" ></a> 
+							<a href="http://th09.deviantart.net/fs71/PRE/f/2010/026/d/e/Pencil_Sketch_of_Rabbit_by_RabbitAndCoyote.jpg" target="_blank" ><img  src="http://th09.deviantart.net/fs71/PRE/f/2010/026/d/e/Pencil_Sketch_of_Rabbit_by_RabbitAndCoyote.jpg" alt="" ></a> 
+						</td>			
+						<td>
+							<input type="radio" name="rubric2" value="6">  C+
+							<input type="radio" name="rubric2" value="5">  C-
+						</td>			
+					</tr>	
+				
+					<tr >
+						<td >
+							The student made an attempt at a realistic style but their efforts fell well short. Poor quality, few details.  
+						</td>	
+						<td >
+							<a href="http://scientopia.org/blogs/ethicsandscience/files/2010/09/RabbitSmall.jpg" target="_blank" ><img  src="http://scientopia.org/blogs/ethicsandscience/files/2010/09/RabbitSmall.jpg" alt="" ></a> 
+							<a href="http://assets0.wordansassets.com/wvc-1277138880/wordansfiles/images/2010/6/21/37396/37396_340.jpg" target="_blank" ><img  src="http://assets0.wordansassets.com/wvc-1277138880/wordansfiles/images/2010/6/21/37396/37396_340.jpg" alt="" ></a> 
+						</td>			
+						<td>
+							<input type="radio" name="rubric2" value="4">  D+
+							<input type="radio" name="rubric2" value="3">  D-
+						</td>				
+					</tr>
+						
+					<tr >
+						<td >
+							The style is not at all realistic. The student clearly made no effort to achieve any semblance of realism. 
+						</td>
+						<td >
+							<a href="http://fc03.deviantart.net/fs12/i/2006/314/7/b/Rabbit_Sketch_by_Sandora.jpg" target="_blank" ><img src="http://fc03.deviantart.net/fs12/i/2006/314/7/b/Rabbit_Sketch_by_Sandora.jpg" alt="" ></a> 
+							<a href="http://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sketch_fat_rabbit.jpg/536px-Sketch_fat_rabbit.jpg" target="_blank" ><img  src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sketch_fat_rabbit.jpg/536px-Sketch_fat_rabbit.jpg" alt="" ></a> 
+						</td>		
+						<td>
+							<input type="radio" name="rubric2" value="2">  F+
+							<input type="radio" name="rubric2" value="1">  F-
+						</td>		
+					</tr>	
+				</table>
+			</div>
+		</td>
+	</tr>
+							
+</table>
+
+<table class="rubric_table rub3col" summary="" >	
+
+	<tr style="border-bottom:none">
+		<td colspan="2" class="tableheader" style="border-bottom:none">
+			Subject and focus: The submission should be a sketch of an woodland animal with no scenery. "Woodland creature" means a land based 
+			animal that commonly lives in temperate or tropical forest environments.
+		</td>
+		<td style="border-bottom:none">
+			<button class="myButton" data-target="rubric3div" onclick="toggle_rubric_table(this)">Show</button>
+		</td>
+	</tr>
+	<tr style="border-top:none">
+		<td colspan="3" style="padding: 0px">
+			<div class="rubinnerdiv"  id="rubric3div" style="height:0px;">
+				<table summary="" style="margin: 0px;border-top:none;width:100%" class="rubinner">
+					<tr class="tableheader" style="border-top:1px dotted">
+						<td>Description</td>
+						<td>Examples</td>
+						<td>Grade</td>
+					</tr>
+					<tr >
+						<td >
+							The subject is a woodland creature and nothing else. Subject fills page.
+						</td>		
+						<td >
+							<a href="http://03varvara.files.wordpress.com/2012/02/00-albrecht-dc3bcrer-a-rabbit-1502.jpg?w=1200&h=1320" target="_blank" ><img width="45%" src="http://03varvara.files.wordpress.com/2012/02/00-albrecht-dc3bcrer-a-rabbit-1502.jpg?w=1200&h=1320" alt="" ></a> 
+						</td>			
+						<td>
+							<input type="radio" name="rubric3" value="10">  A+
+							<input type="radio" name="rubric3" value="9">  A-
+						</td>			
+					</tr>
+					
+					<tr >
+						<td >
+							The subject is a woodland creature but the sketch is somewhat small or includes too much white space. 
+							Might include a small amount of clutter that ultimately takes nothing away from subject.
+						</td>	
+						<td >
+							<a href="http://3.bp.blogspot.com/-6r96FYI6ARo/URgFElyFNKI/AAAAAAAAAdc/qg7gxLSJmsQ/s1600/Pygmy+Bunny+sketch.jpg" target="_blank" ><img width="45%" src="http://3.bp.blogspot.com/-6r96FYI6ARo/URgFElyFNKI/AAAAAAAAAdc/qg7gxLSJmsQ/s1600/Pygmy+Bunny+sketch.jpg" alt="" ></a> 
+						</td>	
+						<td>
+							<input type="radio" name="rubric3" value="8">  B+
+							<input type="radio" name="rubric3" value="7">  B-
+						</td>
+					</tr>	
+				
+					<tr >
+						<td >
+				 			The work is acceptable. Some minimal clutter or distractions.
+						</td>	
+						<td >
+							<a href="http://fc06.deviantart.net/fs71/i/2010/269/8/4/deer_sketch_by_misspaintfilly-d2zisjn.jpg" target="_blank" ><img width="45%" src="http://fc06.deviantart.net/fs71/i/2010/269/8/4/deer_sketch_by_misspaintfilly-d2zisjn.jpg" alt="" ></a> 
+						</td>			
+						<td >
+							<input type="radio" name="rubric3" value="6">  C+
+							<input type="radio" name="rubric3" value="5">  C-
+						</td>			
+					</tr>	
+				
+					<tr >
+						<td >
+							The sketch includes a woodland animal but there are other subjects cluttering the sketch. 
+							The assigned subject is not the central focus of the drawing. Subject is an animal not  
+							thought of as "woodland" (e.g. shark, elephant, etc.)
+						</td>	
+						<td >
+							<a href="http://scientopia.org/blogs/ethicsandscience/files/2010/09/RabbitSmall.jpg" target="_blank" ><img width="45%" src="http://scientopia.org/blogs/ethicsandscience/files/2010/09/RabbitSmall.jpg" alt="" ></a>  
+				 		</td>			
+						<td>
+							<input type="radio" name="rubric3" value="4">  D+
+							<input type="radio" name="rubric3" value="3">  D-
+						</td>				
+					</tr>
+						
+					<tr >
+						<td >
+							The subject matter is not remotely appropriate (not an animal of any kind). 
+						</td>
+						<td >
+							<a href="http://peterewart.ca/images/gallery/sketches/cariboo-buildings/cariboo-buildings-8_big.jpg" target="_blank" ><img width="45%" src="http://peterewart.ca/images/gallery/sketches/cariboo-buildings/cariboo-buildings-8_big.jpg" alt="" ></a> 
+						</td>		
+						<td>
+							<input type="radio" name="rubric3" value="2">  F+
+							<input type="radio" name="rubric3" value="1">  F-
+						</td>		
+					</tr>		
+				</table>
+			</div>
+		</td>
+	</tr>
+		
+</table>
+
+
+<?php 
+?>

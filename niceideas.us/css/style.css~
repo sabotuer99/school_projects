@@ -1,0 +1,500 @@
+/*************************
+-----HTML5----------------
+*************************/
+
+	section, header, footer, aside, article, nav {
+		display: block;
+		}
+	
+	
+	body {
+                background: 	#311807; /* old brown color */
+                background:     #23a5e1; /*new blue color */
+		}
+	
+	a {
+		text-decoration: none;
+		color: black;
+		font-size: 16px;
+
+		}
+	
+	a:hover {
+		text-decoration: underline;
+		}
+	
+	p {
+		font-size: 16px;
+		line-height: 18px;
+		}
+		
+	h1,h2,h3,h4,h5,h6 {
+		font-family: myriad-pro, helvetica, arial, sans-serif;
+		}
+		
+	h3, h4 {
+		padding-left: 10px;
+		color: blue;
+		text-shadow: 1px 1px 0 lightblue;
+		font-family: 'Fredoka One', cursive;
+		font-size: 28px;
+		line-height: 28px;
+		font-weight: normal;	
+		width: 190px;
+		clear: none;
+		display: inline-block;
+		float: left;
+		
+		/* background-color: purple; */
+		}
+		
+	h4 {
+		line-height: 20px;
+		font-size: 20px;
+		margin-top: 5px;
+		margin-right: 0px;
+		width: 110px;
+		/*background: red;*/
+		}
+	
+	#headingsubtext {
+		display: inline-block;
+		margin-top: 3px;
+		margin-bottom: 17px;
+		float: left;
+		clear: right;
+		width: 550px;
+		line-height: 28px;	
+		
+		/* background-color: purple; */
+		}
+		
+	ul {
+		overflow: hidden;
+		}
+		
+	li {
+		margin-left: 0;
+		list-style: none;
+		}
+		
+	.container_24 {
+		padding-left: 0px;
+		padding-right: 0px;
+		box-shadow: 0px 0px 2px 2px orchid;
+		}
+		
+		#container {		
+			background-color: pink;
+			background: -webkit-gradient(linear, left top, right top, from(antiquewhite), color-stop(81.0, pink), color-stop(83.0, antiquewhite), to(pink));
+			background: -webkit-linear-gradient(left, antiquewhite, pink 81.0%, antiquewhite 83.0%, pink);
+			padding-bottom: 20px;	
+			z-index: 0;	
+			}
+		
+	.grid_4 {
+		/* background-color: plum; */
+		min-height: 200px;
+		}
+		
+	.grid_3 {
+		/* background-color: plum; */
+		min-height: 200px;
+		}
+		
+	.rounded {
+		-moz-border-radius: 15px;
+		-webkit-border-radius: 15px;
+		border-radius: 15px;
+		}
+	
+	.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+	}	
+	
+	
+	/*************************
+	-----HEADER---------------
+	*************************/		
+		
+	#header, #footer {
+		background-color: plum;
+		background: -webkit-gradient(linear, left top, right top, from(plum), to(thistle));
+		background: -webkit-linear-gradient(left, plum, thistle);
+		background: -moz-linear-gradient(left, plum, thistle);		
+		background: -ms-linear-gradient(left, plum, thistle);
+		background: -o-linear-gradient(left, plum, thistle);
+		}
+		
+	#header {
+		margin-bottom: -20px;
+		padding-bottom: 20px;
+		margin-top: 8px;
+		}
+		
+	#footer {
+		position: relative;
+		min-height: 130px;
+		padding-top: 40px;
+		margin-top: -30px;
+		z-index: -1;
+		}
+	
+   #mascot {
+      float: left;
+      margin-left: 10px;
+      margin-top:20px;
+      margin-bottom: -20px;
+      }
+                
+   #bioheading {	
+		width: 400px;
+		margin-top: 15px;
+		margin-left: 5px;
+		}
+		
+	h1 {
+		display: block;
+		float: left;
+		color: navy;
+		margin-top: 10px;		
+		margin-left: 5px;
+		margin-right: 20px;
+                margin-bottom: 5px;
+		font-size: 64px;
+		line-height: 64px;
+		font-family: 'Fredoka One', cursive;
+		font-weight: normal;
+		text-shadow: 2px 2px 0 lightgrey;
+		}
+		
+	menu {
+		float: right;
+		margin-right: 10px;
+		margin-top: 15px;
+		}
+		
+	menu img {	
+		
+		height: 25px;
+		width: 25px;
+		margin-right: 10px;
+		}		
+		
+			
+	nav {
+		font-size: 16px;
+		line-height: 24 px;
+		float: left;
+   display: block;
+   margin-left: 5px;
+		}
+		
+		nav li {
+			
+			}
+			
+			nav .currentlocation {
+				font-weight: bold;
+				}
+				
+			nav a:hover{
+				background-color: mistyrose;
+				text-decoration: none;
+				}
+				
+			nav a {
+				background-color: white;	
+				padding-left: 5px;
+				padding-right: 5px;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				box-shadow: 0px -3px 6px orchid;
+				margin-top: 6px;
+				float: left;	
+				}
+		
+		#loginDiv {
+			float: right;			
+			}		
+				
+				
+	 #loginForm>div {
+	 		width: 80px;
+	 		float: right;
+	 		margin: -18px 5px 0px 2px;
+	 		padding-top: 3px;
+	 		}
+	 		
+	 	#loginForm>input {
+			float: right;
+			margin-top: 9px; 		
+	 		}
+	 		
+	 	#loginForm>div>input {
+			width: 80px;
+			margin-top: -5px;	 		
+	 		}
+	 		
+	 	#fb-auth {
+			padding:2px 2px 2px 2px;
+			background:#3b5998;
+			float:right;	
+			margin-top: 6px; 		
+	 		}
+	 		
+	 	#fbconnectimg {
+			width:16px;
+			height:16px;
+			margin:0 0 0 0;
+			padding:0 0 0 0;	 		
+	 		}
+		
+		#loader {
+			float: right; 
+			display: none; 
+			width: 20px; 
+			height: 20px; 
+			margin: 6px; 
+			padding: 0px;			
+			}
+			
+		#userPic {
+			display:inline;
+			margin:6px 5px 0px 0px;
+			float:right;			
+			}
+			
+		#loginDiv {
+			clear:none;
+			margin-bottom:0px;		
+			}
+			
+		#logoutForm {
+			margin-top: 6px;			
+			}			
+			
+		#logoutForm>div {
+			float:right;
+			margin-bottom:7px;
+			margin-right:7px;			
+			}
+			
+	/*************************
+	-----CONTENT AREA---------
+	*************************/	
+	
+	.BOX>a:nth-of-type(1) {
+		margin-left: 	11px;
+		}
+	
+	.fbShareButton {
+		margin-top: -10px;		
+		}	
+	
+	#containtoday, #containbigger, #containspecial {
+		overflow: hidden;			
+		float: left;
+		padding-top: 20px;
+		}
+		
+	#maincolumn {
+		/* background: red; */
+		padding: 0px;
+		}
+	
+	#adsidebar {
+		height: 100%;
+		}
+		
+	#todaygive {
+		/* background: aqua; */
+		}
+		
+	.idearow a{
+		margin-top: 5px;
+		margin-right: 10px;
+		line-height: 24px;
+		}
+		
+		.idearow select, span{
+			width: 120px;
+			}
+			
+		select, .button{
+			background-color: antiquewhite;
+			width: 120px;
+			}
+		
+	.idea {
+		-moz-border-radius: 15px;
+		-webkit-border-radius: 15px;
+		border-radius: 15px;
+		width: 170px;
+		min-height: 200px;
+		box-shadow:0px 0px 10px #888888;
+		padding: 10px;
+		margin-bottom: 5px;
+		background-color: white;	
+		}
+		
+	.idea:hover {
+		box-shadow:0px 0px 10px midnightblue;
+		}
+		
+		a, p, li, .idea, select, span {
+			font-family: 'Pompiere', cursive;
+			font-size: 17px;
+			}
+			
+		.idea p{}
+		
+	#footer {
+		text-align: center;
+		}
+		
+	#adsidebar {
+		float: right;
+		}
+		
+	#todaysay>.idea, #biggersay>.idea, #specialsay>.idea {
+	
+		background-image: url('../img/speech.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		}		
+	
+	#todaydo>.idea, #biggerdo>.idea, #specialdo>.idea {
+	
+		background-image: url('../img/smile.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		}	
+		
+	#todaygive>.idea, #biggergive>.idea, #specialgive>.idea {
+	
+		background-image: url('../img/gift.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		}		
+	
+	#preview_container {
+		float: right;
+		}
+		
+	#inputform {
+	padding-left: 10px;		
+	}
+	
+	#inputform, #preview_container{
+		margin-top: 10px;		
+		}
+	
+	h4 .shareheading {
+		margin-top: 10px;
+		background-color: red;
+	}
+	
+	/*******************************
+	------SOCIAL MEDIA LINKS--------
+	********************************/
+		
+	#socialDiv {
+		float:  right;
+		clear:  both;
+		margin:  17px;
+		padding-bottom:  0px;
+		background: white;
+		padding: 5px 2px 7px 2px;		
+		box-shadow:0px 0px 10px midnightblue;
+	}		
+		
+	#socialDiv>a {
+		float:right;
+		margin-bottom:0px;
+		margin-right: 7px;	
+	}
+	
+	#socialDiv>img {
+		margin-right: 8px;	
+	}
+	
+	#socialDiv>a:nth-of-type(1) {
+		margin-right: 15px;	
+	}
+	
+	#socialDiv>h4 {
+		margin-bottom: 5px;	
+	}
+		
+	/*******************************
+	-----SHARE IDEA MENU------------
+	********************************/		
+	
+	#inputformmenu {
+		clear:left;
+		float:left;
+		margin-right:15px;		
+		}	
+		
+	#divShareMenuItems {
+		float: left;		
+		}
+		
+	#divShareMenuItems>input[type="text"] {
+				width:115px;
+				margin-bottom:4px;
+		}
+		
+	/*******************************
+	-----Create New Accout---------
+	********************************/	
+	
+	#newAccountMenu {
+			float: left;
+			margin-right: 10px;	
+		}
+		
+	#newAccountMenu>span {
+		height: 22px;
+		display: inline-block;
+		margin-top: 2px;
+		width: 60px;
+		}
+		
+	#gender {
+		margin-left: 2px;
+		height: 22px;		
+		}
+	
+	#createAccount>h4, #linkExistingAccount>h4 {
+		text-align: center;
+		margin-bottom: 15px;	
+		box-shadow: 0px 0px 2px 2px orchid;
+		margin-left: 13px;
+		background: lavender;
+		font-size: 24px;
+		line-height: 30px;
+	}
+	
+	#createAccount, #linkExistingAccount {
+		background: white;
+		box-shadow: 0px 0px 2px 2px #23a5e1;
+		padding: 10px 10px 10px 10px;
+		margin-top: 15px;
+		margin-left: 12px;
+		}
+		
+		#inputformmenu>span {
+			height: 24px;
+			margin-bottom: 4px;
+			margin-top: 2px;
+			display: block;
+			width: 200px;
+			}

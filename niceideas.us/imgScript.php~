@@ -1,0 +1,14 @@
+<?php
+
+$ideatext = $_GET['imgtext'];
+
+$ideatext = str_replace("\\","",$ideatext);
+$ideatext = str_replace("#","\#",$ideatext);
+//$ideatext = mb_convert_encoding($ideatext, "HTML-ENTITIES", "UTF-8");
+//$ideatext = preg_replace('~^(&([a-zA-Z0-9]);)~',htmlentities('${1}'),$ideatext);
+echo $ideatext;
+
+echo "<img src='imageGenerate.php?text=".$ideatext."'>";
+
+
+?>
